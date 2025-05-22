@@ -176,64 +176,65 @@
                         <hr class="divider" />
                         <p class="text-muted mb-5">Sampaikan laporan Anda langsung kepada kami melalui halaman ini!</p>
                     </div>
+               </div>
+        <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="alert alert-success alert-dismissible fade show d-none my-alert" role="alert">
+                <strong>Terima Kasih!</strong> Aspirasi Anda Sudah Kami Terima
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <form name="bilik-aspirasi">
+                <div class="mb-3">
+                  <label for="name" class="form-label">Nama Lengkap</label>
+                  <input type="text" class="form-control" id="name" aria-describedby="name" name="nama">
                 </div>
-                <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
-                    <div class="col-lg-6">
-                        <!-- * * * * * * * * * * * * * * *-->
-                        <!-- * * SB Forms Contact Form * *-->
-                        <!-- * * * * * * * * * * * * * * *-->
-                        <!-- This form is pre-integrated with SB Forms.-->
-                        <!-- To make this form functional, sign up at-->
-                        <!-- https://startbootstrap.com/solution/contact-forms-->
-                        <!-- to get an API token!-->
-                        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
-                            <!-- Name input-->
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
-                                <label for="name">Full name</label>
-                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
-                            </div>
-                            <!-- Email address input-->
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
-                                <label for="email">Email address</label>
-                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
-                            </div>
-                            <!-- Phone number input-->
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
-                                <label for="phone">Phone number</label>
-                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
-                            </div>
-                            <!-- Message input-->
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
-                                <label for="message">Message</label>
-                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
-                            </div>
-                            <!-- Submit success message-->
-                            <!---->
-                            <!-- This is what your users will see when the form-->
-                            <!-- has successfully submitted-->
-                            <div class="d-none" id="submitSuccessMessage">
-                                <div class="text-center mb-3">
-                                    <div class="fw-bolder">Form submission successful!</div>
-                                    To activate this form, sign up at
-                                    <br />
-                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
-                                </div>
-                            </div>
-                            <!-- Submit error message-->
-                            <!---->
-                            <!-- This is what your users will see when there is-->
-                            <!-- an error submitting the form-->
-                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
-                            <!-- Submit Button-->
-                            <div class="d-grid"><button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Submit</button></div>
-                        </form>
-                    </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Alamat Email</label>
+                  <input type="email" class="form-control" id="email" aria-describedby="email" name="email">
                 </div>
+                <div class="mb-3">
+                  <label for="phone" class="form-label">Nomor HP</label>
+                  <input type="phone" class="form-control" id="phone" aria-describedby="phone" name="nomorhp"> 
+                </div>
+                <div class="mb-3">
+                    <label for="pesan" class="form-label">Aspirasi</label>
+                    <textarea class="form-control" id="pesan" rows="5" name="aspirasi"></textarea>
+                  </div>
+                 <button type="submit" class="btn btn-primary btn-kirim">Kirim</button>
+
+                 <button class="btn btn-primary btn-loading d-none" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    <span role="status">Loading...</span>
+                  </button>
+              </form>
+        </div>
+        <script>
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxQQJJcBekn1rfSGVB7Gsfc1KnKJ4eMawanPFLvXDWeGw87UZ6lV-Ma1ibKXaozYfug/exec'
+            const form = document.forms['bilik-aspirasi'];
+            const btnKirim = document.querySelector('.btn-kirim');
+            const btnLoading= document.querySelector('.btn-loading');
+            const myAlert = document.querySelector('.my-alert');
+          
+            form.addEventListener('submit', e => {
+              e.preventDefault();
+              // ketika tombol submit diklik
+              // tampilkan tombol loading, hilangkan tombol kirim
+              btnLoading.classList.toggle('d-none');
+              btnKirim.classList.toggle('d-none');
+              fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => {
+                    // tampilkan tombol kirim, hilangkan tombol loading
+                    btnLoading.classList.toggle('d-none');
+                    btnKirim.classList.toggle('d-none');
+                    // tampilkan alert 
+                    myAlert.classList.toggle('d-none');
+                    // reset formnya
+                    form.reset();
+                    console.log('Success!', response)
+                })
+                .catch(error => console.error('Error!', error.message))
+            })
+          </script>
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-4 text-center mb-5 mb-lg-0">
                         <i class="bi-phone fs-2 mb-3 text-muted"></i>
